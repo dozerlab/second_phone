@@ -84,15 +84,6 @@ svg{display:block;width:24px;height:24px;stroke:currentColor;fill:none;stroke-wi
 .compose button{background:var(--accent);color:#fff;border-radius:18px;padding:0 14px;font-size:13px}
 .big{position:absolute;inset:0;z-index:60;background:#000e;display:grid;place-items:center}.big img{max-width:100%;max-height:100%}
 .noteed{display:flex;flex-direction:column;gap:10px;height:100%}.noteed textarea{border-radius:14px;flex:1;resize:none}
-.cal{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;font-size:13px;gap:4px 0}
-.cal .h{font-size:10px;color:var(--muted);padding:4px 0}
-.cal .dd{height:34px;display:grid;place-items:center;border-radius:50%;margin:auto;width:34px;position:relative}
-.cal .today{background:var(--accent);color:#fff}
-.cal .ev:after{content:'';position:absolute;bottom:2px;width:4px;height:4px;border-radius:50%;background:#d1473f}
-.list{background:#fff;border-radius:14px;padding:0 14px;margin:12px 0}
-.list .row:last-child{border:0}
-.big-title{font-size:30px;font-weight:700;margin:4px 0 14px}
-.calnav{display:flex;align-items:center;justify-content:space-between}.calnav button{width:36px;height:36px;display:grid;place-items:center;color:var(--accent);flex:none}.calnav .big-title{margin:4px 0 14px;flex:1;text-align:center;font-size:24px}
 .appview.grouped{background:#f2f2f7}
 .group{background:#fff;border-radius:20px;margin:0 0 26px;overflow:hidden}
 .group-h{font-size:12px;color:#8e8e93;margin:0 0 6px 14px;text-transform:uppercase}
@@ -160,7 +151,11 @@ svg{display:block;width:24px;height:24px;stroke:currentColor;fill:none;stroke-wi
 .ctabs svg{width:24px;height:24px}
 /* 음악 앱 */
 .ytbox{position:absolute;z-index:25;overflow:hidden;border-radius:12px;background:#000;display:none}
-.ytbox.on{display:block}.ytbox.away{left:-9999px;top:0;width:200px;height:112px}
+.ytbox.on{display:block}.ytbox.hide{display:none}
+.ytbox.pip{right:12px;bottom:150px;width:204px;height:115px;box-shadow:0 10px 30px #0000006b}
+.yt-x{position:absolute;top:5px;right:5px;z-index:3;width:22px;height:22px;border-radius:50%;background:#000000a6;color:#fff;font-size:11px;display:grid;place-items:center;line-height:1}
+.yt-fail{position:absolute;inset:0;z-index:2;background:#121212;color:#fff;display:flex;flex-direction:column;justify-content:center;gap:3px;padding:8px 30px 8px 10px;font-size:10px;line-height:1.35}
+.yt-fail b{font-size:11.5px}.yt-fail span{opacity:.75}.yt-fail a{color:#ff5a6e;text-decoration:none;font-weight:600;margin-top:2px}
 .ytbox iframe{width:100%;height:100%;border:0;display:block}
 .mu{background:#fff;padding-top:54px}
 .mubar{display:flex;align-items:center;justify-content:space-between;padding:4px 10px 6px}
@@ -233,6 +228,49 @@ svg{display:block;width:24px;height:24px;stroke:currentColor;fill:none;stroke-wi
 .pvimg img{max-width:100%;max-height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none}
 .pvfoot{position:absolute;left:0;right:0;bottom:22px;display:flex;justify-content:center;gap:56px;z-index:3}
 .pvfoot button{width:44px;height:44px;border-radius:22px;background:#2a2a2ccc;display:grid;place-items:center}.pvfoot svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:1.900}.pvfoot svg.on{fill:#fff}
+/* 캘린더 앱 */
+.ca{background:#fff;padding-top:50px}
+.ca-hd{background:#fff;flex:none}
+.ca-nav{display:flex;align-items:center;justify-content:space-between;padding:2px 8px 0;min-height:40px}
+.ca-lk{color:#ff3b30;display:flex;align-items:center;font-size:16px;padding:6px 4px}.ca-lk svg{width:22px;height:22px}
+.ca-ic{color:#ff3b30;width:34px;height:34px;display:grid;place-items:center}.ca-ic svg{width:22px;height:22px}
+.ca-seg{display:flex;background:#7676801f;border-radius:9px;padding:2px}
+.ca-seg button{padding:4px 16px;font-size:13px;font-weight:500;border-radius:7px}
+.ca-seg button.on{background:#fff;box-shadow:0 1px 3px #0003;font-weight:600}
+.ca-t{font-size:30px;font-weight:700;margin:2px 16px 4px}.ca-t small{font-size:19px;color:#8e8e93;font-weight:500;margin-left:4px}
+.ca-dow{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;font-size:11.5px;color:#8e8e93;padding:6px 0 4px;border-bottom:.5px solid #ddd}
+.ca-sc{flex:1;overflow:auto;padding-bottom:84px}.ca-sc::-webkit-scrollbar{display:none}
+.ca-grid{display:grid;grid-template-columns:repeat(7,1fr)}
+.ca-c{height:50px;display:flex;flex-direction:column;align-items:center;padding-top:4px;border-bottom:.5px solid #efeff4;cursor:pointer}
+.ca-c span{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;font-variant-numeric:tabular-nums}
+.ca-c.we span{color:#8e8e93}.ca-c.today span{color:#ff3b30;font-weight:600}
+.ca-c.sel span{background:#000;color:#fff;font-weight:600}.ca-c.today.sel span{background:#ff3b30;color:#fff}
+.ca-dots{display:flex;gap:2px;height:6px;margin-top:2px}.ca-dots i{width:5px;height:5px;border-radius:50%}
+.ca-sel{background:#fff;padding:10px 0 20px;border-top:8px solid #f2f2f7}
+.ca-sh{font-size:13.5px;color:#8e8e93;padding:6px 16px 4px;font-weight:600}.ca-sh b{color:#ff3b30}
+.ca-ev{display:flex;gap:11px;padding:9px 16px;align-items:center}
+.ca-ev i{width:4px;align-self:stretch;border-radius:2px;background:var(--c)}
+.ca-ev div{flex:1;min-width:0}.ca-ev b{display:block;font-size:15.5px;font-weight:600}.ca-ev span{font-size:12.5px;color:#8e8e93}
+.ca-ev small{font-size:12.5px;color:#8e8e93;text-align:right;line-height:1.35}
+.ca-none{color:#8e8e93;padding:12px 16px;font-size:15px}
+.ca-add{color:#ff3b30;padding:10px 16px;display:flex;gap:6px;align-items:center;font-size:15.5px}.ca-add svg{width:16px;height:16px}
+.ca-tb{position:absolute;left:0;right:0;bottom:0;height:74px;background:#f9f9fbee;backdrop-filter:blur(16px);border-top:.5px solid #d8d8dc;display:flex;justify-content:space-around;padding:10px 6px 0;z-index:3}
+.ca-tb button{color:#ff3b30;font-size:15px}
+.ca-week{display:grid;grid-template-columns:repeat(7,1fr);padding:6px 6px 2px;text-align:center}
+.ca-week div{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer}.ca-week small{font-size:10.5px;color:#8e8e93}
+.ca-week span{width:32px;height:32px;border-radius:50%;font-size:17px;display:flex;align-items:center;justify-content:center}
+.ca-week .sel span{background:#000;color:#fff}.ca-week .today span{color:#ff3b30}.ca-week .today.sel span{background:#ff3b30;color:#fff}
+.ca-dt{text-align:center;font-size:14.5px;font-weight:600;padding:6px 0}
+.ca-all div{margin:2px 14px 2px 56px;background:color-mix(in srgb,var(--c) 22%,white);border-left:3px solid var(--c);font-size:12px;padding:3px 7px;border-radius:4px}
+.ca-tl{background:#fff;border-top:.5px solid #e5e5ea}
+.ca-hours{position:relative}
+.ca-hr{position:absolute;left:0;right:0;border-top:.5px solid #e5e5ea}
+.ca-hr span{position:absolute;left:8px;top:-8px;font-size:10.5px;color:#8e8e93;background:#fff;padding-right:4px}
+.ca-blk{position:absolute;left:58px;right:10px;background:color-mix(in srgb,var(--c) 22%,white);border-left:3px solid var(--c);border-radius:5px;padding:3px 6px;overflow:hidden}
+.ca-blk b{display:block;font-size:12.5px}.ca-blk span{font-size:10.5px;color:#3c3c43}
+.ca-now{position:absolute;left:52px;right:0;height:2px;background:#ff3b30;z-index:2}
+.ca-now:before{content:"";position:absolute;left:-4px;top:-3px;width:8px;height:8px;border-radius:50%;background:#ff3b30}
+.ca-now span{position:absolute;left:-48px;top:-8px;font-size:10.5px;color:#ff3b30;font-weight:700;background:#fff}
 @media(max-width:760px){.page{padding:0}.device{width:100vw;height:100svh;border:0;border-radius:0}.screen{border-radius:0}.island{top:8px}}
 </style>
 </head>
@@ -349,7 +387,7 @@ const ICONS = {
   phone: () => IMG('phone.png'),
   safari: () => IMG('safari.png'),
   messages: () => IMG('messages.png'),
-  ytmusic: () => IMG('youtubemusic.jpg'),
+  youtube: () => IMG('youtube.jpg'),
   instagram: () => IMG('instagram.jpg'),
   kakaotalk: () => IMG('kakaotalk.jpg'),
   photos: () => IMG('photos.png'),
@@ -362,7 +400,7 @@ const ICONS = {
 };
 /* open: 앱을 눌렀을 때 열리는 화면 (없으면 "준비 중" 토스트) */
 const APPS = [
-  { id:'ytmusic',   name:'YT Music',  label:'YouTube Music', icon:'ytmusic' },
+  { id:'youtube',   name:'YouTube',   icon:'youtube',  href:'https://www.youtube.com/shorts/q_ENdnXeSjY' },   // href: 누르면 이 주소로 이동
   { id:'instagram', name:'Instagram', icon:'instagram' },
   { id:'kakaotalk', name:'카카오톡',  icon:'kakaotalk' },
   { id:'photos',    name:'사진',      icon:'photos',   open:'photos' },
@@ -372,7 +410,7 @@ const APPS = [
   { id:'settings',  name:'설정',      icon:'settings', open:'settings' },
   { id:'clock',     name:'시계',      icon:'clock',    open:'clock' },
 ];
-const PAGES = [['ytmusic','instagram','kakaotalk','calendar','settings'], ['photos','notes','camera','clock']];  // 홈 화면 페이지별 앱 (왼쪽→오른쪽)
+const PAGES = [['youtube','instagram','kakaotalk','calendar','settings'], ['photos','notes','camera','clock']];  // 홈 화면 페이지별 앱 (왼쪽→오른쪽)
 const DOCK = [
   { id:'phone',    name:'', icon:'phone',    open:'contacts' },
   { id:'safari',   name:'', label:'Safari', icon:'safari' },
@@ -434,7 +472,7 @@ function unlockTransition(){
   ov.className = 'lockov'; ov.style.background = wallCss('lock') || 'var(--wall)';
   if (cur){ cur.style.transform = ''; cur.style.opacity = ''; ov.appendChild(cur) }
   screen.insertBefore(ov, appLayer);
-  styleChrome('home'); renderHome();
+  styleChrome('home'); renderHome(); placeYT();
   base.firstElementChild.classList.add('zoomin');
   setTimeout(() => { ov.remove(); base.firstElementChild?.classList.remove('zoomin') }, 460);
   tick();
@@ -446,7 +484,7 @@ function openLayer(iconEl, iconId){
   styleChrome('app');
   root = appLayer; appLayer.hidden = false; appLayer.classList.remove('closing', 'open');
   appLayer.style.transformOrigin = iconEl ? iconCenter(iconEl) : '50% 50%';
-  renderApp();
+  renderApp(); placeYT();
   void appLayer.offsetWidth; appLayer.classList.add('open');
   tick();
 }
@@ -547,7 +585,7 @@ function renderHome(){
   pages.addEventListener('click', e => { if (moved) { e.stopPropagation(); e.preventDefault(); moved = false } }, true);
   root.querySelectorAll('[data-app]').forEach(b => b.onclick = () => {
     const a = [...APPS, ...DOCK].find(x => x.id === b.dataset.app);
-    a.open ? go('app', a.open, b.querySelector('.icon'), a.id) : toast(`${a.label || a.name} 앱은 아직 준비 중이에요`);
+    a.href ? window.open(a.href, '_blank', 'noopener') : a.open ? go('app', a.open, b.querySelector('.icon'), a.id) : toast(`${a.label || a.name} 앱은 아직 준비 중이에요`);
   });
 }
 function toast(t){
@@ -725,7 +763,7 @@ const Player = {
   kind(t = this.track()){ if (!t || !t.url) return 'sim'; return ytId(t.url) ? 'yt' : 'audio' },
   pos(){ const k = this.kind(); return k === 'audio' ? (this.audio?.currentTime || 0) : k === 'yt' ? this.ytInfo.t : this.simPos },
   dur(){ const t = this.track(); if (!t) return 0; const k = this.kind(); if (k === 'audio') return isFinite(this.audio?.duration) ? this.audio.duration : (t.dur || 180); if (k === 'yt') return this.ytInfo.d || t.dur || 180; return t.dur || 180 },
-  stopAll(){ clearInterval(this.simT); this.audio?.pause(); if (this.yt){ this.yt.remove(); this.yt = null } $('#ytBox').className = 'ytbox' },
+  stopAll(){ clearInterval(this.simT); this.audio?.pause(); if (this.yt){ this.yt.remove(); this.yt = null } this.guard = null; $('#ytBox').replaceChildren(); $('#ytBox').className = 'ytbox' },
   play(i){
     if (i !== undefined && i !== this.idx){ this.stopAll(); this.err = null; this.idx = i; this.simPos = 0; this.ytInfo = { t: 0, d: 0 }; this.load() }
     if (!this.track()) return;
@@ -747,7 +785,15 @@ const Player = {
       const st = (String(t.url).match(/[?&]t=(\d+)s?/) || [])[1], start = st ? `&start=${st}` : '';
       f.src = `https://www.youtube.com/embed/${ytId(t.url)}?enablejsapi=1&playsinline=1&autoplay=1&rel=0&modestbranding=1${start}${origin}`;
       f.addEventListener('load', () => { try { f.contentWindow.postMessage(JSON.stringify({ event: 'listening', id: 1, channel: 'widget' }), '*') } catch (e) {} this.ytCmd('setVolume', [this.vol]) });
-      $('#ytBox').replaceChildren(f); this.yt = f;
+      const x = document.createElement('button'); x.className = 'yt-x'; x.textContent = '✕'; x.setAttribute('aria-label', '영상 닫기'); x.onclick = e => { e.stopPropagation(); Player.stop() };
+      $('#ytBox').replaceChildren(x, f); this.yt = f;
+      const g = this.guard = { ready: false, state: -1, err: null };
+      f.addEventListener('load', () => setTimeout(() => { try { f.contentWindow.postMessage(JSON.stringify({ event: 'listening', id: 2, channel: 'widget' }), '*') } catch (e) {} }, 800));
+      setTimeout(() => {              // 8초 안에 준비 신호가 없거나 오류면 안내, 재생이 안 시작됐으면 탭 안내
+        if (this.yt !== f) return;
+        if (!g.ready || g.err) this.fail(g.err);
+        else if (g.state !== 1 && g.state !== 3) toast('영상 화면을 한 번 탭하면 재생돼요', 3200);
+      }, 8000);
       if (!location.protocol.startsWith('http')) toast('파일로 열면 유튜브가 막힐 수 있어요. 웹 주소(http://localhost…)로 열어 주세요', 5200);
     }
   },
@@ -758,6 +804,18 @@ const Player = {
   prev(){ if (this.pos() > 3) return this.seek(0); const n = TRACKS().length; if (n) this.play((this.idx - 1 + n) % n) },
   seek(sec){ const k = this.kind(); if (k === 'audio' && this.audio) this.audio.currentTime = sec; else if (k === 'yt'){ this.ytCmd('seekTo', [sec, true]); this.ytInfo.t = sec } else this.simPos = sec; this.tick() },
   setVol(v){ this.vol = v; if (this.audio) this.audio.volume = v / 100; this.ytCmd('setVolume', [v]) },
+  stop(){ this.stopAll(); this.playing = false; this.err = null; this.idx = -1; this.ui() },
+  fail(code){
+    const box = $('#ytBox'), t = this.track(); if (!this.yt || !box || box.querySelector('.yt-fail')) return;
+    this.playing = false; this.err = code || -1;
+    const file = location.protocol === 'file:', c = +code;
+    const why = file || c === 153 ? '파일을 그냥 열면 유튜브가 재생을 막아요. 웹 주소(GitHub Pages 등)로 열어 주세요.'
+      : c === 101 || c === 150 ? '이 영상은 업로더가 다른 사이트에서 재생하지 못하게 막아 뒀어요.'
+      : c === 100 ? '삭제됐거나 비공개인 영상이에요.' : '인터넷 연결이나 링크를 확인해 주세요.';
+    const d = document.createElement('div'); d.className = 'yt-fail';
+    d.innerHTML = `<b>YouTube를 재생할 수 없어요</b><span>${why}</span>${t ? `<a href="${esc(t.url)}" target="_blank" rel="noopener">YouTube에서 열기 ↗</a>` : ''}`;
+    box.appendChild(d); this.ui();
+  },
   ui(){ if (state.scene === 'app' && state.app === 'music') renderApp(); else placeYT() },
   tick(){
     const p = this.pos(), d = this.dur() || 1, pct = (p / d * 100).toFixed(2) + '%';
@@ -769,15 +827,11 @@ window.addEventListener('message', e => {
   if (!Player.yt || e.source !== Player.yt.contentWindow) return;
   let d; try { d = typeof e.data === 'string' ? JSON.parse(e.data) : e.data } catch (err) { return }
   if (!d) return;
-  if (d.event === 'onError'){
-    const c = +d.info, file = location.protocol === 'file:';
-    Player.playing = false; Player.err = c || -1;
-    toast(file || c === 153 ? '파일을 그냥 열면 유튜브가 막아요. 웹 주소(http://localhost…)로 열어 주세요'
-      : c === 101 || c === 150 ? '이 영상은 업로더가 외부 재생을 막아 놨어요'
-      : c === 100 ? '삭제됐거나 비공개인 영상이에요' : `재생할 수 없어요 (오류 ${c || '?'})`, 5200);
-    Player.ui();
-  }
+  const g = Player.guard;
+  if (d.event === 'onReady' || d.event === 'initialDelivery') { if (g) g.ready = true }
+  if (d.event === 'onError'){ if (g) g.err = +d.info || -1; Player.fail(+d.info) }
   const info = d.info; if (!info || typeof info !== 'object') { if (d.event === 'onStateChange' && info === 0) Player.next(); return }
+  if (g && info.playerState != null){ g.ready = true; g.state = info.playerState }
   if (info.currentTime != null) Player.ytInfo.t = info.currentTime;
   if (info.duration) Player.ytInfo.d = info.duration;
   if (info.playerState === 0) Player.next();
@@ -787,11 +841,13 @@ window.addEventListener('message', e => {
 });
 function placeYT(){
   const box = $('#ytBox'); if (!box || !Player.yt) return;
+  const locked = state.scene === 'lock' || state.scene === 'pin';
   const art = state.scene === 'app' && state.app === 'music' && state.sub === 'now' ? root.querySelector('.np-art.yt') : null;
-  if (art){
+  if (locked){ box.className = 'ytbox hide'; box.style.cssText = '' }
+  else if (art){                                             // 재생 화면: 앨범 아트 자리에 영상
     const sr = screen.getBoundingClientRect(), k = sr.width / screen.offsetWidth || 1, r = art.getBoundingClientRect();
     box.className = 'ytbox on'; box.style.cssText = `left:${(r.left - sr.left) / k}px;top:${(r.top - sr.top) / k}px;width:${r.width / k}px;height:${r.height / k}px`;
-  } else { box.className = 'ytbox on away'; box.style.cssText = '' }
+  } else { box.className = 'ytbox on pip'; box.style.cssText = '' }   // 그 밖: 오른쪽 아래 작은 화면(PiP)
 }
 function music(){
   const now = state.sub === 'now', t = Player.track() || TRACKS()[0], keep = root.querySelector('.mu-sc')?.scrollTop || 0;
@@ -897,22 +953,66 @@ function photos(){
   root.querySelectorAll('.pc').forEach(d => d.onclick = () => { state.sub = +d.dataset.i; renderApp() });
   root.querySelectorAll('[data-t]').forEach(b => b.onclick = () => { state.photoTab = b.dataset.t; state.sub = null; renderApp() });
 }
+/* 캘린더 앱 */
+const parseYMD = d => { const [y, m, dd] = d.split('-').map(Number); return new Date(y, m - 1, dd) };
+const addDays = (d, n) => { const x = parseYMD(d); x.setDate(x.getDate() + n); return ymd(x) };
+const dateLong = d => { const x = parseYMD(d); return `${x.getMonth() + 1}월 ${x.getDate()}일 ${'일월화수목금토'[x.getDay()]}요일` };
+const ampmT = t => { const [h, m] = t.split(':').map(Number); return `${h < 12 ? '오전' : '오후'} ${h12(h)}:${pad(m)}` };
+const evOn = d => CONFIG.events.filter(e => e.yearly ? e.date === d.slice(5) : e.date === d)
+  .map(e => ({ ...e, allDay: e.allDay ?? !e.start, color: e.color || '#ff3b30' }))
+  .sort((a, b) => (b.allDay ? 1 : 0) - (a.allDay ? 1 : 0) || String(a.start || '').localeCompare(String(b.start || '')));
 function calendar(){
-  const now = new Date();
-  state.cal = state.cal || { y: now.getFullYear(), m: now.getMonth() };
-  const { y, m } = state.cal, first = new Date(y,m,1).getDay(), days = new Date(y,m+1,0).getDate();
-  const isToday = n => y === now.getFullYear() && m === now.getMonth() && n === now.getDate();
-  const cells = ['일','월','화','수','목','금','토'].map(x=>`<div class="h">${x}</div>`).join('')
-    + '<div></div>'.repeat(first)
-    + Array.from({length:days},(_,i)=>i+1).map(n => `<div><div class="dd ${isToday(n)?'today':''} ${eventsOn(y,m,n).length?'ev':''}">${n}</div></div>`).join('');
-  const list = Array.from({length:days},(_,i)=>i+1).flatMap(n => eventsOn(y,m,n).map(e => ({ n, title: e.title })));
-  root.innerHTML = shell('캘린더', `<div class="body"><div class="calnav"><button id="cprev" aria-label="이전 달">${I.back}</button><div class="big-title">${y}년 ${m+1}월</div><button id="cnext" aria-label="다음 달" style="transform:scaleX(-1)">${I.back}</button></div><div class="cal">${cells}</div>
-    <div class="list">${list.length ? list.map(e=>`<div class="row"><span class="t"><b>${esc(e.title)}</b><p>${m+1}월 ${e.n}일</p></span></div>`).join('') : '<div class="row"><span class="t"><p>이 달에는 일정이 없어요</p></span></div>'}</div></div>`,
-    `<button id="ctoday" style="color:var(--accent);font-size:15px">오늘</button>`);
-  const move = k => { let nm = m + k, ny = y; if (nm < 0){ nm = 11; ny-- } if (nm > 11){ nm = 0; ny++ } state.cal = { y: ny, m: nm }; renderApp(); $('#back').onclick = goBack; $('.appview').style.animation = 'none' };
-  $('#cprev').onclick = () => move(-1); $('#cnext').onclick = () => move(1);
-  $('#ctoday').onclick = () => { state.cal = null; renderApp(); $('#back').onclick = goBack; $('.appview').style.animation = 'none' };
+  const today = ymd(new Date());
+  const c = state.cal = state.cal || { view: 'month', sel: today, ym: today.slice(0, 7) };
+  const keep = root.querySelector('.ca-sc')?.scrollTop || 0;
+  const chevL = MI.chevL, chevR = chevL.replace('<svg', '<svg style="transform:scaleX(-1)"');
+  const plus = MI.plus;
+  let html;
+  if (c.view === 'month'){
+    const [y, m] = c.ym.split('-').map(Number), first = new Date(y, m - 1, 1).getDay(), days = new Date(y, m, 0).getDate();
+    let cells = '<div class="ca-c" style="pointer-events:none"></div>'.repeat(first);
+    for (let d = 1; d <= days; d++){
+      const ds = `${y}-${pad(m)}-${pad(d)}`, dow = (first + d - 1) % 7;
+      cells += `<div class="ca-c ${ds === today ? 'today' : ''} ${ds === c.sel ? 'sel' : ''} ${dow === 0 || dow === 6 ? 'we' : ''}" data-d="${ds}"><span>${d}</span><div class="ca-dots">${evOn(ds).slice(0, 3).map(e => `<i style="background:${esc(e.color)}"></i>`).join('')}</div></div>`;
+    }
+    const list = evOn(c.sel);
+    html = `<div class="view appview ca"><div class="ca-hd"><div class="ca-nav"><button class="ca-lk" data-a="prev">${chevL}<span>${m === 1 ? y - 1 : y}년</span></button>
+        <div class="ca-seg"><button class="on">월</button><button data-a="day">일</button></div><div style="display:flex"><button class="ca-ic" data-a="next" aria-label="다음 달">${chevR}</button><button class="ca-ic" data-a="add" aria-label="일정 추가">${plus}</button></div></div>
+        <h1 class="ca-t">${m}월 <small>${y}</small></h1><div class="ca-dow">${CAL_DOW.map(d => `<span>${d}</span>`).join('')}</div></div>
+      <div class="ca-sc"><div class="ca-grid">${cells}</div><div class="ca-sel"><div class="ca-sh">${dateLong(c.sel)}${c.sel === today ? ' <b>오늘</b>' : ''}</div>
+        ${list.map(e => `<div class="ca-ev" style="--c:${esc(e.color)}"><i></i><div><b>${esc(e.title)}</b>${e.loc ? `<span>${esc(e.loc)}</span>` : ''}</div><small>${e.allDay ? '하루 종일' : `${ampmT(e.start)}<br>${ampmT(e.end || e.start)}`}</small></div>`).join('') || '<div class="ca-none">일정 없음</div>'}
+        <button class="ca-add" data-a="add">${plus} 일정 추가</button></div></div>
+      <nav class="ca-tb"><button data-a="today">오늘</button><button>캘린더</button><button>받은 참석 요청</button></nav></div>`;
+  } else {
+    const d0 = parseYMD(c.sel), start = addDays(c.sel, -d0.getDay()), week = Array.from({ length: 7 }, (_, i) => addDays(start, i));
+    const evs = evOn(c.sel), all = evs.filter(e => e.allDay), timed = evs.filter(e => !e.allDay), H = 48;
+    const n = new Date(), nowMin = n.getHours() * 60 + n.getMinutes();
+    const hourLabel = h => h === 0 ? '' : h < 12 ? `오전 ${h}시` : h === 12 ? '정오' : `오후 ${h - 12}시`;
+    html = `<div class="view appview ca"><div class="ca-hd"><div class="ca-nav"><button class="ca-lk" data-a="month">${chevL}<span>${d0.getMonth() + 1}월</span></button>
+        <div class="ca-seg"><button data-a="month">월</button><button class="on">일</button></div><button class="ca-ic" data-a="add" aria-label="일정 추가">${plus}</button></div>
+        <div class="ca-week">${week.map(w => { const wd = parseYMD(w); return `<div class="${w === c.sel ? 'sel' : ''} ${w === today ? 'today' : ''}" data-d="${w}"><small>${CAL_DOW[wd.getDay()]}</small><span>${wd.getDate()}</span></div>` }).join('')}</div>
+        <div class="ca-dt">${dateLong(c.sel)}</div>${all.length ? `<div class="ca-all">${all.map(e => `<div style="--c:${esc(e.color)}">${esc(e.title)}</div>`).join('')}</div>` : ''}</div>
+      <div class="ca-sc ca-tl" id="caTL"><div class="ca-hours" style="height:${24 * H}px">
+        ${Array.from({ length: 24 }, (_, h) => `<div class="ca-hr" style="top:${h * H}px"><span>${hourLabel(h)}</span></div>`).join('')}
+        ${timed.map(e => { const [sh, sm] = e.start.split(':').map(Number), [eh, em] = (e.end || e.start).split(':').map(Number); const top = (sh * 60 + sm) / 60 * H, ht = Math.max(22, ((eh * 60 + em) - (sh * 60 + sm)) / 60 * H); return `<div class="ca-blk" style="top:${top}px;height:${ht}px;--c:${esc(e.color)}"><b>${esc(e.title)}</b><span>${ampmT(e.start)}${e.loc ? ' · ' + esc(e.loc) : ''}</span></div>` }).join('')}
+        ${c.sel === today ? `<div class="ca-now" style="top:${nowMin / 60 * H}px"><span>${n.getHours()}:${pad(n.getMinutes())}</span></div>` : ''}</div></div></div>`;
+  }
+  root.innerHTML = html;
+  const sc = root.querySelector('.ca-sc'); if (sc) sc.scrollTop = c.view === 'day' && !c.dayInit ? (c.dayInit = 1, 7 * 48) : keep;
+  if (c.view === 'month') c.dayInit = 0;
+  const again = () => calendar();
+  root.querySelectorAll('[data-d]').forEach(el => el.onclick = () => { c.sel = el.dataset.d; again() });
+  root.querySelectorAll('[data-a]').forEach(el => el.onclick = () => {
+    const a = el.dataset.a;
+    const move = k => { const [y, m] = c.ym.split('-').map(Number), d = new Date(y, m - 1 + k, 1); c.ym = `${d.getFullYear()}-${pad(d.getMonth() + 1)}`; c.sel = `${c.ym}-01`; c.dayInit = 0; sc && (sc.scrollTop = 0); calendar(); root.querySelector('.ca-sc').scrollTop = 0 };
+    if (a === 'prev') move(-1); else if (a === 'next') move(1);
+    else if (a === 'today'){ c.sel = today; c.ym = today.slice(0, 7); calendar() }
+    else if (a === 'day'){ c.view = 'day'; c.dayInit = 0; calendar() }
+    else if (a === 'month'){ c.view = 'month'; c.ym = c.sel.slice(0, 7); calendar() }
+    else if (a === 'add') toast('일정은 index.html의 CONFIG.events에서 추가해요');
+  });
 }
+const CAL_DOW = ['일', '월', '화', '수', '목', '금', '토'];
 function contacts(){
   root.innerHTML = shell('연락처', `<div class="body">${CONFIG.contacts.map(c =>
     `<a class="row" style="text-decoration:none;color:inherit" href="tel:${esc(c.phone)}"><span class="av">${esc(c.name[0])}</span><span class="t"><b>${esc(c.name)}</b><p>${esc(c.phone)}</p></span></a>`).join('')}</div>`);
