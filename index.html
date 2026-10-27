@@ -15,7 +15,9 @@ svg{display:block;width:24px;height:24px;stroke:currentColor;fill:none;stroke-wi
 /* device */
 .device{position:relative;width:374px;height:782px;border:7px solid #282631;border-radius:53px;background:#282631;box-shadow:0 35px 85px #30264024,0 4px 8px #30264020;flex:none}
 .screen{position:relative;width:100%;height:100%;border-radius:45px;overflow:hidden;isolation:isolate;background:var(--wall);background-size:cover;background-position:center}
-.island{position:absolute;z-index:50;top:13px;left:50%;transform:translateX(-50%);width:102px;height:27px;border-radius:20px;background:#211f28;pointer-events:none}
+.island{position:absolute;z-index:50;top:13px;left:50%;transform:translateX(-50%);width:102px;height:27px;border-radius:20px;background:#211f28;pointer-events:none;transition:width .3s}
+.island svg{display:none;position:absolute;left:12px;top:5px;width:17px;height:17px;stroke:#fff;stroke-width:2;fill:none;stroke-linecap:round}
+.island.lockd{width:164px;background:#000}.island.lockd svg{display:block}
 .statusbar{position:absolute;z-index:49;top:19px;left:24px;right:22px;display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:650;height:17px;pointer-events:none}
 .statusbar.light{color:#fff}
 .battery{height:10px;width:21px;border:1.4px solid currentColor;border-radius:3px;padding:1.2px;position:relative}
@@ -23,6 +25,11 @@ svg{display:block;width:24px;height:24px;stroke:currentColor;fill:none;stroke-wi
 .battery i{display:block;width:80%;height:100%;background:currentColor;border-radius:1px}
 .status-r{display:flex;gap:6px;align-items:center}
 .status-r svg{width:15px;height:15px}
+.status-r svg.sig{width:18px;height:12px;fill:currentColor;stroke:none}
+.batt{position:relative;width:27px;height:13px;border-radius:4.500px;background:color-mix(in srgb,currentColor 32%,transparent);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.batt:after{content:'';position:absolute;right:-2px;top:4px;width:1.500px;height:5px;background:currentColor;opacity:.5;border-radius:1px}
+.batt i{position:absolute;left:0;top:0;bottom:0;width:87%;background:currentColor}
+.batt b{position:relative;font-size:9px;font-weight:700;color:#fff;mix-blend-mode:difference}
 .view{position:absolute;inset:0}
 .view[hidden]{display:none}
 .homebar{position:absolute;z-index:50;bottom:8px;left:50%;transform:translateX(-50%);width:120px;height:5px;border-radius:3px;background:currentColor;opacity:.85;cursor:pointer}
@@ -30,26 +37,12 @@ svg{display:block;width:24px;height:24px;stroke:currentColor;fill:none;stroke-wi
 .lock{color:#fff;text-align:center;text-shadow:0 1px 8px #0003;cursor:pointer}
 .lock .date{margin-top:78px;font-size:16px;font-weight:600}
 .lock .time{font-size:84px;font-weight:300;letter-spacing:-3px;line-height:1.05}
-.lock .hint{position:absolute;bottom:46px;left:0;right:0;font-size:12px;opacity:.9}
-.lock .notif{position:absolute;left:14px;right:14px;top:330px;background:#ffffffd9;color:var(--ink);border-radius:18px;padding:11px 14px;text-align:left;font-size:12px;text-shadow:none;backdrop-filter:blur(14px)}
-.lock .notif b{display:block;font-size:13px;margin-bottom:2px}
-.pin{display:flex;flex-direction:column;align-items:center;padding-top:80px;color:#fff;background:#0000002e;backdrop-filter:blur(18px)}
-.pin h3{font-size:15px;margin:20px 0 14px}
-.dots{display:flex;gap:14px;margin-bottom:34px}
-.dots i{width:11px;height:11px;border-radius:50%;border:1.5px solid #fff}
-.dots i.on{background:#fff}
-.dots.shake{animation:sh .35s}
-@keyframes sh{25%{transform:translateX(-9px)}75%{transform:translateX(9px)}}
-.keys{display:grid;grid-template-columns:repeat(3,70px);gap:14px 20px}
-.keys button{width:70px;height:70px;border-radius:50%;background:#ffffff38;font-size:28px;font-weight:300;line-height:1}
-.keys button small{display:block;font-size:8px;letter-spacing:2px;margin-top:2px}
-.keys button.t{background:none;font-size:14px;align-self:center}
 /* home */
 .home{padding:0;color:var(--ink);overflow:hidden}
 .pages{display:flex;width:100%;height:100%;transition:transform .35s cubic-bezier(.2,.8,.2,1);touch-action:pan-y;user-select:none}
 .pages.drag{transition:none}
 .hpage{flex:none;width:100%;padding:62px 22px 0}
-.pdots{position:absolute;left:0;right:0;bottom:116px;display:flex;justify-content:center;gap:8px}
+.pdots{position:absolute;left:0;right:0;bottom:156px;display:flex;justify-content:center;gap:8px}
 .pdots i{width:7px;height:7px;border-radius:50%;background:#fff;opacity:.45;cursor:pointer;transition:opacity .2s}
 .pdots i.on{opacity:1}
 .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px 8px}
@@ -60,7 +53,9 @@ svg{display:block;width:24px;height:24px;stroke:currentColor;fill:none;stroke-wi
 .toast{position:absolute;z-index:70;left:50%;bottom:120px;transform:translateX(-50%);background:#000a;color:#fff;font-size:12px;padding:8px 14px;border-radius:16px;white-space:nowrap;animation:pop .25s ease}
 .badge{position:absolute;top:-5px;right:-5px;background:#ff3b30;color:#fff;font-size:11px;min-width:19px;height:19px;border-radius:10px;display:grid;place-items:center;font-weight:600}
 .screen.photo .home .app{color:#fff;text-shadow:0 1px 4px #0007}
-.dock{position:absolute;left:12px;right:12px;bottom:24px;height:84px;border-radius:30px;background:#ffffff59;backdrop-filter:blur(16px);display:flex;justify-content:space-around;align-items:center;padding:0 8px}
+.dock{position:absolute;left:12px;right:12px;bottom:22px;height:88px;border-radius:36px;background:linear-gradient(150deg,#ffffff40,#ffffff17);backdrop-filter:blur(18px) saturate(1.5);-webkit-backdrop-filter:blur(18px) saturate(1.5);box-shadow:inset 0 0 0 1px #ffffff4d,inset 0 2px 5px #ffffff59,inset 0 -3px 8px #0000001a,0 10px 28px #0003;display:flex;justify-content:space-around;align-items:center;padding:0 8px}
+.hsearch{position:absolute;left:50%;transform:translateX(-50%);bottom:122px;display:flex;align-items:center;gap:5px;padding:6px 15px;border-radius:16px;background:linear-gradient(150deg,#ffffff38,#ffffff14);backdrop-filter:blur(14px);box-shadow:inset 0 0 0 1px #ffffff40,0 2px 10px #0002;color:#fff;font-size:13px;text-shadow:0 1px 3px #0004}
+.hsearch svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.200;stroke-linecap:round}
 /* apps */
 .appview{background:var(--paper);display:flex;flex-direction:column;padding-top:56px}
 .appbar{display:flex;align-items:center;justify-content:space-between;padding:6px 14px 10px;min-height:44px}
@@ -111,6 +106,27 @@ svg{display:block;width:24px;height:24px;stroke:currentColor;fill:none;stroke-wi
 .app-layer[hidden]{display:none}
 .app-layer.open{animation:appOpen .44s cubic-bezier(.2,.9,.25,1)}
 .app-layer.closing{animation:appClose .38s cubic-bezier(.4,0,.6,1) forwards}
+.lock .hint{position:absolute;bottom:58px;left:0;right:0;font-size:12px;opacity:.92}
+.lock .notif{position:absolute;left:12px;right:12px;bottom:128px;display:flex;align-items:center;gap:10px;background:#ffffffd1;backdrop-filter:blur(22px) saturate(1.4);color:#111;border-radius:22px;padding:11px 13px;text-align:left;font-size:13px;text-shadow:none;box-shadow:0 4px 18px #0002}
+.lock .notif img{width:38px;height:38px;border-radius:9px;flex:none}
+.lock .notif .nt{flex:1;min-width:0;line-height:1.3}.lock .notif b{display:block;font-size:14px;font-weight:600}
+.lock .notif .nt span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lock .notif small{align-self:flex-start;color:#6b6b72;font-size:12px}
+.lock .qb{position:absolute;bottom:40px;width:50px;height:50px;border-radius:50%;background:#0000004a;backdrop-filter:blur(16px);display:grid;place-items:center;box-shadow:inset 0 0 0 1px #ffffff2e}
+.lock .qb svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:1.700;stroke-linecap:round;stroke-linejoin:round}
+.pin{color:#fff;background:#0000003d}
+.pin h3{position:absolute;top:120px;left:0;right:0;margin:0;font-size:19px;font-weight:500;text-align:center}
+.pin .sub{position:absolute;top:150px;left:0;right:0;margin:0;font-size:14.5px;line-height:1.35;text-align:center}
+.dots{position:absolute;top:202px;left:0;right:0;display:flex;justify-content:center;gap:22px}
+.dots i{width:12px;height:12px;border-radius:50%;border:1.800px solid #fff}
+.dots i.on{background:#fff}
+.dots.shake{animation:sh .35s}
+@keyframes sh{25%{transform:translateX(-9px)}75%{transform:translateX(9px)}}
+.keys{position:absolute;top:271px;left:50%;transform:translateX(-50%);display:grid;grid-template-columns:repeat(3,68px);gap:18px 23px}
+.keys button{width:68px;height:68px;border-radius:50%;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:30px;font-weight:300;line-height:1;background:linear-gradient(145deg,#ffffff3d,#ffffff14);backdrop-filter:blur(7px) saturate(1.5) brightness(1.1);-webkit-backdrop-filter:blur(7px) saturate(1.5) brightness(1.1);box-shadow:inset 0 0 0 1px #ffffff55,inset 0 2px 3px #ffffff66,inset 0 -3px 6px #0000001f,0 3px 12px #0000002e;transition:background .12s}
+.keys button:active{background:#ffffff73}
+.keys button small{display:block;font-size:8.5px;font-weight:700;letter-spacing:2.200px;margin-top:2px;height:9px}
+.pfoot button{position:absolute;bottom:40px;transform:translateX(-50%);color:#fff;font-size:17px}
 .lockov{position:absolute;inset:0;z-index:40;border-radius:inherit;overflow:hidden;animation:unlockUp .33s cubic-bezier(.5,0,.8,.4) forwards;will-change:transform,opacity}
 .lock.locking,.pin{animation:lockIn .3s ease-out}
 .home.zoomin{animation:homeIn .45s cubic-bezier(.2,.9,.3,1)}
@@ -270,30 +286,35 @@ svg{display:block;width:24px;height:24px;stroke:currentColor;fill:none;stroke-wi
 .wx-temp{font-size:44px;font-weight:300;line-height:1.05;letter-spacing:-1px;margin-top:1px}
 .wx-ic{margin-top:auto}.wx-ic svg{width:26px;height:26px;display:block}
 .wx-cond{font-size:13px;font-weight:600;margin-top:3px}.wx-hl{font-size:12px;opacity:.92;margin-top:1px;white-space:nowrap}
-/* 메시지(iMessage) 앱 */
-.im{background:#fff;padding-top:50px}
-.imh{display:flex;align-items:center;justify-content:space-between;padding:4px 14px 0}
-.imgl{height:36px;min-width:36px;padding:0 14px;border-radius:18px;background:#f2f2f7;color:#007aff;display:grid;place-items:center;font-size:15px;font-weight:500;box-shadow:inset 0 0 0 .5px #0000001a}
-.imgl svg{width:20px;height:20px;stroke:#007aff;fill:none;stroke-width:2}
-.imsc{flex:1;overflow:auto}.imsc::-webkit-scrollbar{display:none}
-.im h1{font-size:32px;font-weight:700;margin:4px 16px 8px;letter-spacing:-.3px}
-.imsearch{margin:0 16px 6px;height:36px;border-radius:10px;background:#7676801f;color:#8e8e93;display:flex;align-items:center;gap:6px;padding:0 10px;font-size:16px}.imsearch svg{width:16px;height:16px;stroke:#8e8e93;fill:none;stroke-width:2.200}
-.imrow{display:flex;gap:11px;padding:10px 16px 0 26px;position:relative;width:100%;text-align:left;align-items:flex-start}
-.imrow .dot{position:absolute;left:9px;top:28px;width:10px;height:10px;border-radius:50%;background:#007aff}
-.imav{width:46px;height:46px;border-radius:50%;background:linear-gradient(#a6abb5,#868b96);display:grid;place-items:center;flex:none;overflow:hidden}
-.imav svg{width:30px;height:30px;fill:#ffffffd9;stroke:none;margin-top:8px}
-.imrow .tx{flex:1;min-width:0;border-bottom:.5px solid #d1d1d6;padding:0 0 10px;line-height:1.3}
+/* 메시지 앱 (iOS 26) */
+.im{background:#fff;padding-top:0}
+.glass{background:#ffffffe8;box-shadow:0 0 0 .5px #00000024,0 4px 14px #0000001c;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.imtop{position:absolute;top:50px;left:0;right:0;height:42px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;z-index:4}
+.imtop b{position:absolute;left:0;right:0;text-align:center;font-size:17px;font-weight:600;pointer-events:none}
+.gb{height:40px;min-width:40px;border-radius:20px;padding:0 17px;display:grid;place-items:center;font-size:16px;font-weight:500;color:#000}
+.gb svg{width:20px;height:20px;stroke:#000;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.imsc{flex:1;overflow:auto;padding:98px 0 100px}.imsc::-webkit-scrollbar{display:none}
+.imbot{position:absolute;left:16px;right:16px;bottom:24px;display:flex;gap:10px;z-index:4}
+.imbot .sp{flex:1;height:50px;border-radius:25px;display:flex;align-items:center;gap:8px;padding:0 17px;color:#8e8e93;font-size:17px}.imbot .sp svg{width:19px;height:19px;stroke:#000;fill:none;stroke-width:2.200;stroke-linecap:round}
+.imbot .cm{width:50px;height:50px;border-radius:25px;display:grid;place-items:center}.imbot .cm svg{width:22px;height:22px;stroke:#000;fill:none;stroke-width:1.900;stroke-linecap:round;stroke-linejoin:round}
+.imrow{display:flex;gap:12px;padding:11px 16px 0 26px;position:relative;width:100%;text-align:left;align-items:flex-start}
+.imrow .dot{position:absolute;left:9px;top:31px;width:10px;height:10px;border-radius:50%;background:#007aff}
+.imav{width:52px;height:52px;border-radius:50%;background:linear-gradient(#a6bce4,#7a8dca);flex:none;overflow:hidden;display:block}
+.imav svg{width:100%;height:100%;display:block;stroke:none}
+.imrow .tx{flex:1;min-width:0;border-bottom:.5px solid #d1d1d6;padding:0 0 11px;line-height:1.3}
 .imrow .l1{display:flex;align-items:center;gap:6px}
-.imrow b{flex:1;font-size:16px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.imrow .tm{color:#8e8e93;font-size:14px}.imrow .cv2{width:9px;height:14px;stroke:#c4c4c8;fill:none;stroke-width:2.200}
-.imrow p{margin:1px 0 0;color:#8e8e93;font-size:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.imth{display:flex;align-items:flex-start;justify-content:space-between;padding:2px 12px 6px;background:#fff;border-bottom:.5px solid #0000001a;flex:none}
-.imwho{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px}.imwho .imav{width:40px;height:40px}.imwho .imav svg{width:26px;height:26px;margin-top:7px}
-.imwho span{display:flex;align-items:center;gap:2px}.imwho svg.chv{width:6px;height:10px;stroke:#8e8e93;fill:none;stroke-width:2.500;margin:0}
-.imth .imgl{padding:0;width:36px;margin-top:2px}
-.imthread{flex:1;overflow:auto;padding:6px 12px 10px;display:flex;flex-direction:column}.imthread::-webkit-scrollbar{display:none}
-.imtm{align-self:center;text-align:center;font-size:11px;color:#8e8e93;margin:12px 0 6px;line-height:1.35}.imtm b{font-weight:600}
-.imb{position:relative;z-index:0;max-width:74%;padding:7px 12px;border-radius:18px;font-size:15.5px;line-height:1.28;margin-top:2px;word-wrap:break-word}
+.imrow b{flex:1;font-size:17px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.imrow .tm{color:#8e8e93;font-size:15px}.imrow .cv2{width:9px;height:14px;stroke:#c4c4c8;fill:none;stroke-width:2.200}
+.imrow p{margin:1px 0 0;color:#8e8e93;font-size:15px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.imth{position:absolute;top:0;left:0;right:0;height:140px;z-index:4;pointer-events:none;background:linear-gradient(#fff 60%,#fff0)}
+.imth .gb{position:absolute;top:52px;left:12px;width:40px;padding:0;pointer-events:auto}
+.imwho{position:absolute;top:46px;left:0;right:0;display:flex;flex-direction:column;align-items:center}
+.imwho .imav{width:54px;height:54px}
+.imwho .nm{margin-top:-8px;padding:5px 12px;border-radius:17px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:4px;pointer-events:auto}
+.imwho .nm svg{width:6px;height:10px;stroke:#8e8e93;fill:none;stroke-width:2.500}
+.imthread{flex:1;overflow:auto;padding:132px 12px 96px;display:flex;flex-direction:column}.imthread::-webkit-scrollbar{display:none}
+.imtm{align-self:center;text-align:center;font-size:12px;color:#8e8e93;margin:14px 0 8px;line-height:1.35}.imtm b{font-weight:400}
+.imb{position:relative;z-index:0;max-width:75%;padding:8px 13px;border-radius:19px;font-size:16.5px;line-height:1.28;margin-top:2px;word-wrap:break-word}
 .imb.new{margin-top:8px}
 .imb.them{background:#e9e9eb;color:#000;align-self:flex-start}
 .imb.me{background:#007aff;color:#fff;align-self:flex-end}
@@ -304,12 +325,12 @@ svg{display:block;width:24px;height:24px;stroke:currentColor;fill:none;stroke-wi
 .imb.them.tail:before{left:-7px;background:#e9e9eb;border-bottom-right-radius:16px 14px}
 .imb.them.tail:after{left:-26px;border-bottom-right-radius:10px}
 .imrd{align-self:flex-end;font-size:11px;color:#8e8e93;margin:3px 2px 0;font-weight:500}
-.imbar{display:flex;align-items:flex-end;gap:8px;padding:6px 10px 24px;background:#fff;flex:none}
-.imbar .plus{width:34px;height:34px;border-radius:50%;background:#7676801f;display:grid;place-items:center;flex:none}.imbar .plus svg{width:18px;height:18px;stroke:#8e8e93;fill:none;stroke-width:2.200}
-.imin{flex:1;min-height:34px;border:1px solid #c8c8cc;border-radius:18px;display:flex;align-items:center;padding:0 5px 0 12px;gap:6px}
-.imin input{flex:1;border:0;outline:0;font:inherit;font-size:16px;background:none;min-width:0;padding:6px 0}
-.imin .mic{width:20px;height:20px;stroke:#8e8e93;fill:none;stroke-width:1.800}
-.imin .snd{width:26px;height:26px;border-radius:50%;background:#007aff;display:none;place-items:center;flex:none}.imin .snd svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2.600}
+.imbar{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:flex-end;gap:9px;padding:14px 12px 24px;z-index:4;background:linear-gradient(#fff0,#fff 38%)}
+.imbar .plus{width:44px;height:44px;border-radius:22px;display:grid;place-items:center;flex:none}.imbar .plus svg{width:20px;height:20px;stroke:#000;fill:none;stroke-width:2.200;stroke-linecap:round}
+.imin{flex:1;min-height:44px;border-radius:22px;display:flex;align-items:center;padding:0 7px 0 18px;gap:6px}
+.imin input{flex:1;border:0;outline:0;font:inherit;font-size:17px;background:none;min-width:0;padding:8px 0}
+.imin .mic{width:22px;height:22px;stroke:#8e8e93;fill:none;stroke-width:2.200;stroke-linecap:round;margin-right:6px}
+.imin .snd{width:32px;height:32px;border-radius:50%;background:#007aff;display:none;place-items:center;flex:none}.imin .snd svg{width:17px;height:17px;stroke:#fff;fill:none;stroke-width:2.600;stroke-linecap:round;stroke-linejoin:round}
 .imin.typing .snd{display:grid}.imin.typing .mic{display:none}
 /* 카카오톡 앱 */
 .kt{background:#fff;padding-top:50px}
@@ -364,11 +385,12 @@ svg{display:block;width:24px;height:24px;stroke:currentColor;fill:none;stroke-wi
 <body>
 <main class="page">
   <div class="device"><div class="screen" id="screen">
-    <div class="island"></div>
+    <div class="island"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2.500" fill="#fff" stroke="none"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
     <div class="statusbar" id="status"><span class="clock">9:41</span>
       <span class="status-r">
+        <svg class="sig" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx=".9"/><rect x="5" y="5.500" width="3" height="6.500" rx=".9"/><rect x="10" y="3" width="3" height="9" rx=".9"/><rect x="15" y="0" width="3" height="12" rx=".9" opacity=".35"/></svg>
         <svg viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r=".6"/></svg>
-        <span class="battery"><i></i></span></span></div>
+        <span class="batt"><i></i><b>87</b></span></span></div>
     <div id="root"></div>
     <div class="app-layer" id="appLayer" hidden></div>
     <div class="ytbox" id="ytBox"></div>
@@ -386,7 +408,6 @@ const CONFIG = {
   lockWallpaperFit: ['25% 0%', 'cover'],  // [위치, 크기]
   homeWallpaper: 'images/home-wallpaper.jpg', // 홈 화면 배경
   homeWallpaperFit: ['60% 0%', 'auto 100%'],   // [위치, 크기] 사진을 더 내리려면 크기를 키우세요 (예: 'auto 170%')
-  lockNotice: { title: '차은경', text: '어디야?' },
   messages: [                // 메시지 앱. ['them', ...] 상대가 보낸 말 / ['me', ...] 내가 보낸 말 / ['time', ...] 가운데 시간 표시
     { name: '차은경', chat: [
       ['time', '어제 오후 6:40'],
@@ -394,7 +415,7 @@ const CONFIG = {
       ['me', '아직이요. 변호사님은?'],
       ['them', '나도 아직. 저녁 같이 먹을까?'],
       ['me', '좋아요'],
-      ['time', '오늘 오전 8:45'],
+      ['time', '오늘 {now}'],       // {now} = 페이지를 연 시각 (잠금화면 알림 시간과 같이 바뀜)
       ['them', '어디야?'],
     ] },
   ],
@@ -536,11 +557,12 @@ let state = { scene:'lock', page:0, app:null, pin:'' };
 const pad = n => String(n).padStart(2,'0');
 let tickN = 0;
 function tick(){
-  const d = new Date(), t = `${d.getHours()}:${pad(d.getMinutes())}`;
+  const d = new Date(), t = `${h12(d.getHours())}:${pad(d.getMinutes())}`;
   document.querySelectorAll('.clock').forEach(e => e.textContent = t);
   const dt = $('#lockDate'); if (dt) dt.textContent = `${d.getMonth()+1}월 ${d.getDate()}일 ${'일월화수목금토'[d.getDay()]}요일`;
   const lt = $('#lockTime'); if (lt) lt.textContent = t;
   if (state.scene === 'home' && !(tickN++ % 60)) loadWeather();
+  const rel = $('.notif small[data-rel]'); if (rel) rel.textContent = relNow();
   if (state.scene === 'app' && state.app === 'clock' && (state.clockTab || 'world') === 'world') updateWorld();
 }
 setInterval(tick, 1000);
@@ -556,6 +578,7 @@ function setWall(scene){
   return !!wallCss(scene);
 }
 function styleChrome(scene){
+  $('.island').classList.toggle('lockd', scene === 'pin');
   const photo = setWall(scene);
   status.classList.toggle('light', photo);
   $('#homebar').style.color = scene === 'app' ? '#000' : (photo ? '#fff' : '#555');
@@ -612,12 +635,16 @@ function closeLayer(){
   closeTimer = setTimeout(() => { appLayer.hidden = true; appLayer.classList.remove('closing'); appLayer.innerHTML = '' }, 380);
   tick();
 }
+const v_qb = () => $('#lockView').querySelectorAll('.qb').forEach(b => { b.onpointerdown = b.onpointerup = e => e.stopPropagation() });
 function renderLock(){
-  const n = CONFIG.lockNotice;
+  const ui = CONFIG.messages.findIndex((_, i) => msgUnread(i)), n = ui < 0 ? null : { title: CONFIG.messages[ui].name, text: msgLast(ui)[1], live: msgIsLive(ui), time: msgIsLive(ui) ? relNow() : msgWhenLabel(ui) };   // 안 읽은 문자가 있으면 알림으로 보여줘요
   root.innerHTML = `<div class="view lock" id="lockView">
     <div class="date" id="lockDate"></div><div class="time" id="lockTime"></div>
-    ${n ? `<div class="notif"><b>${esc(n.title)}</b>${esc(n.text)}</div>` : ''}
-    <div class="hint">위로 쓸어올리거나 눌러서 열기</div></div>`;
+    ${n ? `<div class="notif"><img src="icons/messages.png" alt=""><div class="nt"><b>${esc(n.title)}</b><span>${esc(n.text)}</span></div><small ${n.live ? 'data-rel="1"' : ''}>${esc(n.time || '지금')}</small></div>` : ''}
+    <div class="hint">위로 쓸어올려서 열기</div>
+    <button class="qb" style="left:44px" aria-label="손전등"><svg viewBox="0 0 24 24"><path d="M8 3h8v4l-2 2.500V20a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V9.500L8 7zM8 7h8"/></svg></button>
+    <button class="qb" style="right:44px" aria-label="카메라"><svg viewBox="0 0 24 24"><path d="M3.500 8.500a2 2 0 0 1 2-2h2L9 4.500h6l1.500 2h2a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3.800"/></svg></button></div>`;
+  v_qb();
   const v = $('#lockView'); let st = null, moved = false;
   const k = () => screen.getBoundingClientRect().width / screen.offsetWidth || 1;
   v.onpointerdown = e => { st = { y: e.clientY }; moved = false; v.setPointerCapture?.(e.pointerId) };
@@ -637,18 +664,19 @@ function renderLock(){
 }
 function unlock(){ CONFIG.passcode ? go('pin') : go('home') }
 function renderPin(){
-  root.innerHTML = `<div class="view pin"><div style="margin-top:6px">${I.lock}</div><h3>암호를 입력하세요</h3>
+  const digits = [['1',''],['2','ABC'],['3','DEF'],['4','GHI'],['5','JKL'],['6','MNO'],['7','PQRS'],['8','TUV'],['9','WXYZ']];
+  root.innerHTML = `<div class="view pin"><h3>암호 입력</h3><p class="sub">Face ID를 활성화하려면<br>사용자 암호가 필요합니다.</p>
     <div class="dots" id="dots">${[...CONFIG.passcode].map(()=>'<i></i>').join('')}</div>
-    <div class="keys">${[['1',''],['2','ABC'],['3','DEF'],['4','GHI'],['5','JKL'],['6','MNO'],['7','PQRS'],['8','TUV'],['9','WXYZ']]
-      .map(([k,s])=>`<button data-k="${k}">${k}<small>${s}</small></button>`).join('')}
-      <button class="t" data-k="x">취소</button><button data-k="0">0</button><button class="t" data-k="d">삭제</button></div></div>`;
-  root.querySelectorAll('.keys button').forEach(b => b.onclick = () => key(b.dataset.k));
+    <div class="keys">${digits.map(([k,l])=>`<button data-k="${k}">${k}<small>${l}</small></button>`).join('')}<span></span><button data-k="0">0</button><span></span></div>
+    <div class="pfoot"><button style="left:calc(50% - 91px)">긴급 상황</button><button id="pr" data-k="x" style="left:calc(50% + 91px)">취소</button></div></div>`;
+  root.querySelectorAll('[data-k]').forEach(b => b.onclick = () => key(b.dataset.k));
 }
 function key(k){
   if (k === 'x') return go('lock');
   if (k === 'd') state.pin = state.pin.slice(0,-1);
   else if (state.pin.length < CONFIG.passcode.length) state.pin += k;
   [...$('#dots').children].forEach((d,i) => d.classList.toggle('on', i < state.pin.length));
+  const pr = $('#pr'); if (pr){ pr.dataset.k = state.pin.length ? 'd' : 'x'; pr.textContent = state.pin.length ? '삭제' : '취소' }
   if (state.pin.length === CONFIG.passcode.length){
     if (state.pin === CONFIG.passcode) setTimeout(() => go('home'), 150);
     else { $('#dots').classList.add('shake'); setTimeout(() => { state.pin=''; renderPin() }, 400) }
@@ -708,6 +736,7 @@ function renderHome(){
     <div class="pages" id="pages">${PAGES.map((ids, i) => `<div class="hpage">
       <div class="grid">${i === 0 ? widget : ''}${ids.map(id => icon(APPS.find(a => a.id === id))).join('')}</div></div>`).join('')}</div>
     <div class="pdots" id="pdots">${PAGES.map((_, i) => `<i data-p="${i}"></i>`).join('')}</div>
+    <div class="hsearch"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.500"/><path d="m16 16 4.500 4.500"/></svg>검색</div>
     <div class="dock">${DOCK.map(icon).join('')}</div></div>`;
   const pages = $('#pages'), dots = [...$('#pdots').children];
   const show = (i, dx = 0) => {
@@ -1123,13 +1152,21 @@ function goBack(){
   go('home');
 }
 const PERSON = '<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4.200"/><path d="M3.500 24c0-6 4-9 8.500-9s8.500 3 8.500 9z"/></svg>';
+const IPERSON = '<svg viewBox="0 0 100 100"><circle cx="50" cy="37" r="17.500" fill="#fff"/><path d="M16.500 83C22 66 36 62.500 50 62.500S78 66 83.500 83C78 91.500 64 95 50 95S22 91.500 16.500 83z" fill="#fff"/></svg>';
 const msgKey = i => 'chat-' + CONFIG.messages[i].name;
 const msgTalk = i => [...CONFIG.messages[i].chat, ...store.get(msgKey(i), [])];
 const msgLast = i => [...msgTalk(i)].reverse().find(x => x[0] !== 'time');
 const msgUnread = i => { const l = msgLast(i); return !!l && l[0] === 'them' && !(store.get('imread', {})[CONFIG.messages[i].name]) };
 const unreadCount = () => CONFIG.messages.reduce((n, _, i) => n + (msgUnread(i) ? 1 : 0), 0);
+const BOOT = Date.now();   // 페이지를 연 시각 = '{now}' 문자가 도착한 시각
+const nowLabel = (() => { let v; return () => v || (v = (d => `${apm(d.getHours())} ${h12(d.getHours())}:${pad(d.getMinutes())}`)(new Date(BOOT))) })();
+const relNow = () => { const m = Math.floor((Date.now() - BOOT) / 60000); return m < 1 ? '지금' : m < 60 ? `${m}분 전` : `${Math.floor(m / 60)}시간 전` };
+const msgIsLive = i => { const w = [...msgTalk(i)].reverse().find(x => x[0] === 'time'); return !!w && String(w[1]).includes('{now}') };
+const fixTime = t => String(t).replace('{now}', nowLabel());
+const msgWhenLabel = i => { const w = [...msgTalk(i)].reverse().find(x => x[0] === 'time'); if (!w) return ''; const t = fixTime(w[1]); return t.startsWith('오늘 ') ? t.slice(3) : t.split(' ')[0] };
 function messages(){
   const SEARCH = '<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.500"/><path d="m16 16 4.500 4.500"/></svg>';
+  const WAVE = '<svg class="mic" viewBox="0 0 24 24"><path d="M4 10v4M8 7v10M12 4v16M16 8v8M20 11v2"/></svg>';
   if (state.sub != null){                                         // 대화 화면
     const i = state.sub, m = CONFIG.messages[i], talk = msgTalk(i);
     const rd = store.get('imread', {}); if (!rd[m.name]){ rd[m.name] = true; store.set('imread', rd) }
@@ -1137,19 +1174,18 @@ function messages(){
     let first = true;
     const items = talk.map(([w, t], k) => {
       if (w === 'time'){
-        const parts = t.split(' '), day = parts[0], rest = parts.slice(1).join(' '), hasDay = /^(오늘|어제)$/.test(day);
+        t = fixTime(t); const parts = t.split(' '), day = parts[0], rest = parts.slice(1).join(' '), hasDay = /^(오늘|어제)$/.test(day);
         const html = `<div class="imtm">${first ? 'iMessage<br>' : ''}${hasDay ? `<b>${esc(day)}</b> ${esc(rest)}` : `<b>${esc(t)}</b>`}</div>`; first = false; return html;
       }
       const prev = talk[k - 1], next = talk[k + 1];
       const startsGroup = !prev || prev[0] !== w, endsGroup = !next || next[0] !== w;
       return `<div class="imb ${w === 'me' ? 'me' : 'them'} ${startsGroup ? 'new' : ''} ${endsGroup ? 'tail' : ''}">${esc(t)}</div>${k === lastMe ? '<div class="imrd">읽음</div>' : ''}`;
     }).join('');
-    root.innerHTML = `<div class="view appview im"><div class="imth"><button class="imgl" id="back" aria-label="뒤로"><svg viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg></button>
-        <div class="imwho"><span class="imav">${PERSON}</span><span>${esc(m.name)} <svg class="chv" viewBox="0 0 8 12"><path d="m1.500 1.500 5 4.500-5 4.500"/></svg></span></div>
-        <button class="imgl" aria-label="영상 통화"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="12" height="10" rx="2.500"/><path d="m15 11 6-3.500v9L15 13z"/></svg></button></div>
+    root.innerHTML = `<div class="view appview im"><div class="imth"><button class="gb glass" id="back" aria-label="뒤로"><svg viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg></button>
+        <div class="imwho"><span class="imav">${IPERSON}</span><span class="nm glass">${esc(m.name)}<svg viewBox="0 0 8 12"><path d="m1.500 1.500 5 4.500-5 4.500"/></svg></span></div></div>
       <div class="imthread" id="thread">${items}</div>
-      <form class="imbar" id="cf"><span class="plus"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
-        <div class="imin" id="imin"><input id="ci" placeholder="iMessage" autocomplete="off"><svg class="mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.500 11a6.500 6.500 0 0 0 13 0M12 17.500V21"/></svg>
+      <form class="imbar" id="cf"><span class="plus glass"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+        <div class="imin glass" id="imin"><input id="ci" placeholder="iMessage" autocomplete="off">${WAVE}
           <button class="snd" type="submit" aria-label="보내기"><svg viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div></form></div>`;
     const th = $('#thread'); th.scrollTop = th.scrollHeight;
     $('#ci').oninput = e => $('#imin').classList.toggle('typing', !!e.target.value.trim());
@@ -1157,13 +1193,13 @@ function messages(){
       store.set(msgKey(i), [...store.get(msgKey(i), []), ['me', v]]); renderApp(); $('#back').onclick = goBack; $('#ci').focus() };
     return;
   }
-  root.innerHTML = `<div class="view appview im"><div class="imh"><button class="imgl">편집</button><button class="imgl" aria-label="새 메시지"><svg viewBox="0 0 24 24"><path d="M4 20h4L19.500 8.500a2.800 2.800 0 0 0-4-4L4 16z"/><path d="m13.500 6.500 4 4"/></svg></button></div>
-    <div class="imsc"><h1>메시지</h1><div class="imsearch">${SEARCH}<span>검색</span></div>
+  root.innerHTML = `<div class="view appview im"><div class="imtop"><button class="gb glass">편집</button><b>메시지</b><button class="gb glass" aria-label="필터"><svg viewBox="0 0 24 24"><path d="M4 7h16M7 12h10M10 17h4"/></svg></button></div>
+    <div class="imsc">
       ${CONFIG.messages.map((m, i) => {
-        const last = msgLast(i), when = [...msgTalk(i)].reverse().find(x => x[0] === 'time');
-        const label = when ? (when[1].startsWith('오늘 ') ? when[1].slice(3) : when[1].split(' ')[0]) : '';
-        return `<button class="imrow" data-i="${i}">${msgUnread(i) ? '<span class="dot"></span>' : ''}<span class="imav">${PERSON}</span><span class="tx"><span class="l1"><b>${esc(m.name)}</b><span class="tm">${esc(label)}</span><svg class="cv2" viewBox="0 0 8 12"><path d="m1.500 1.500 5 4.500-5 4.500"/></svg></span><p>${esc(last ? last[1] : '')}</p></span></button>`;
-      }).join('')}</div></div>`;
+        const last = msgLast(i), label = msgWhenLabel(i);
+        return `<button class="imrow" data-i="${i}">${msgUnread(i) ? '<span class="dot"></span>' : ''}<span class="imav">${IPERSON}</span><span class="tx"><span class="l1"><b>${esc(m.name)}</b><span class="tm">${esc(label)}</span><svg class="cv2" viewBox="0 0 8 12"><path d="m1.500 1.500 5 4.500-5 4.500"/></svg></span><p>${esc(last ? last[1] : '')}</p></span></button>`;
+      }).join('')}</div>
+    <div class="imbot"><div class="sp glass">${SEARCH}<span>검색</span></div><button class="cm glass" aria-label="새 메시지"><svg viewBox="0 0 24 24"><path d="M4 20h4L19.500 8.500a2.800 2.800 0 0 0-4-4L4 16z"/><path d="m13.500 6.500 4 4"/></svg></button></div></div>`;
   root.querySelectorAll('[data-i]').forEach(b => b.onclick = () => { state.sub = +b.dataset.i; renderApp(); $('#back').onclick = goBack });
 }
 function refreshBadges(){
